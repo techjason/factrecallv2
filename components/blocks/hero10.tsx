@@ -440,7 +440,7 @@ const Hero10 = () => {
                 this year with our proven framework
               </p>
             </div>
-            <div className="mt-4 flex justify-center">
+            <div className="mt-4 hidden lg:flex justify-center">
               <p className="text-sm text-muted-foreground">
                 Press
                 <kbd className="pointer-events-none mx-0.5 inline-flex h-5 select-none items-center rounded border bg-muted px-1.5 font-mono font-medium text-muted-foreground opacity-100">
