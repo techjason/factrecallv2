@@ -13,8 +13,13 @@ export const baseOptions: BaseLayoutProps = {
   },
   links: [
     {
-      text: "Documentation",
-      url: "/docs",
+      text: "Biology",
+      url: "/biology/aqa",
+      active: "nested-url",
+    },
+    {
+      text: "Chemistry",
+      url: "/chemistry/aqa",
       active: "nested-url",
     },
   ],

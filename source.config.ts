@@ -1,7 +1,11 @@
-import { defineDocs, defineConfig } from 'fumadocs-mdx/config';
+import { defineDocs, defineConfig } from "fumadocs-mdx/config";
 
-export const { docs, meta } = defineDocs({
-  dir: 'content/docs',
+export const { docs: biologyDocs, meta: biologyMeta } = defineDocs({
+  dir: "content/biology",
+});
+
+export const { docs: chemistryDocs, meta: chemistryMeta } = defineDocs({
+  dir: "content/chemistry",
 });
 
 export default defineConfig();

@@ -1,8 +1,18 @@
-import { docs, meta } from '@/.source';
-import { createMDXSource } from 'fumadocs-mdx';
-import { loader } from 'fumadocs-core/source';
+import {
+  biologyDocs,
+  biologyMeta,
+  chemistryDocs,
+  chemistryMeta,
+} from "@/.source";
+import { createMDXSource } from "fumadocs-mdx";
+import { loader } from "fumadocs-core/source";
 
-export const source = loader({
-  baseUrl: '/docs',
-  source: createMDXSource(docs, meta),
+export const biologySource = loader({
+  baseUrl: "/biology",
+  source: createMDXSource(biologyDocs, biologyMeta),
+});
+
+export const chemistrySource = loader({
+  baseUrl: "/chemistry",
+  source: createMDXSource(chemistryDocs, chemistryMeta),
 });
