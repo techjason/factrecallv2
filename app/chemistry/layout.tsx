@@ -6,28 +6,7 @@ import { RootToggle } from "fumadocs-ui/components/layout/root-toggle";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <DocsLayout
-      tree={chemistrySource.pageTree}
-      // sidebar={{
-      //   banner: (
-      //     <RootToggle
-      //       options={[
-      //         {
-      //           title: "AQA",
-      //           description: "AQA Chemistry",
-      //           url: "/chemistry/aqa",
-      //         },
-      //         {
-      //           title: "OCR",
-      //           description: "OCR Chemistry",
-      //           url: "/chemistry/ocr",
-      //         },
-      //       ]}
-      //     />
-      //   ),
-      // }}
-      {...baseOptions}
-    >
+    <DocsLayout tree={chemistrySource.pageTree} {...baseOptions}>
       {children}
     </DocsLayout>
   );
