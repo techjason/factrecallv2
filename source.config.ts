@@ -8,4 +8,8 @@ export const { docs: chemistryDocs, meta: chemistryMeta } = defineDocs({
   dir: "content/chemistry",
 });
 
+export const { docs, meta } = defineDocs({
+  dir: "content",
+});
+
 export default defineConfig();
