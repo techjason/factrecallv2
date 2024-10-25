@@ -9,6 +9,7 @@ import { notFound } from "next/navigation";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { Accordions, Accordion } from "fumadocs-ui/components/accordion";
 import { MCQQuiz } from "@/components/MCQQuiz";
+import PDFViewer from "@/components/PDFViewer";
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
@@ -30,6 +31,7 @@ export default async function Page(props: {
             Accordions,
             Accordion,
             MCQQuiz,
+            PDFViewer,
           }}
         />
       </DocsBody>
