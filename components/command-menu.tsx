@@ -14,9 +14,11 @@ import {
 } from "@/components/ui/command";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { useRouter } from "next/navigation";
 
 export function CommandMenu() {
   const [open, setOpen] = React.useState(false);
+  const router = useRouter();
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -41,7 +43,7 @@ export function CommandMenu() {
           <CommandEmpty>No results found.</CommandEmpty>
 
           <CommandGroup heading="Biology">
-            <CommandItem>
+            <CommandItem onSelect={() => router.push("/biology/aqa")}>
               <BeakerIcon />
               <span>AQA Biology</span>
             </CommandItem>
