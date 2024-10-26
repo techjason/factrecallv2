@@ -1,3 +1,4 @@
+import { siteConfig } from "@/lib/siteConfig";
 import { InstagramLogoIcon } from "@radix-ui/react-icons";
 
 const sections = [
@@ -47,10 +48,10 @@ const Footer7 = () => {
                     alt="logo"
                     className="h-11"
                   /> */}
-                  <p className="text-2xl font-semibold">factrecall.com</p>
+                  <p className="text-2xl font-semibold">{siteConfig.name}</p>
                 </span>
                 <p className="mt-6 text-sm text-muted-foreground">
-                  Your A* Journey Starts Here
+                  {siteConfig.description}
                 </p>
               </div>
               <ul className="flex items-center space-x-6 text-muted-foreground">

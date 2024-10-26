@@ -1,6 +1,7 @@
 import { ArrowDownRight } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
+import { siteConfig } from "@/lib/siteConfig";
 
 const Hero10 = () => {
   return (
@@ -433,7 +434,7 @@ const Hero10 = () => {
             </Badge>
             <div>
               <h1 className="mb-6 text-pretty text-4xl font-bold lg:text-7xl">
-                Your A* Journey Starts Here
+                {siteConfig.description}
               </h1>
               <p className="text-muted-foreground lg:text-xl">
                 Join 10,000+ A-Level students and teachers already securing A*s
