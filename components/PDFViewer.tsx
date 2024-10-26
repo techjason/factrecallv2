@@ -1,13 +1,13 @@
 interface PDFViewerProps {
   fileId: string;
   height?: number;
-  downloadText?: string;
+  pageNumber?: number;
 }
 
 export default function PDFViewer({
   fileId,
   height = 600,
-  downloadText,
+  pageNumber,
 }: PDFViewerProps) {
   return (
     <>
@@ -17,12 +17,12 @@ export default function PDFViewer({
         width="100%"
         height={height}
       ></iframe>
-      {downloadText && (
+      {pageNumber && (
         <a
           className="text-sm text-gray-500 dark:text-gray-400"
           href={`https://drive.google.com/uc?export=download&id=${fileId}`}
         >
-          {downloadText}
+          Download PDF ({pageNumber} pages) © factrecall.com
         </a>
       )}
     </>
