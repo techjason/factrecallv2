@@ -19,7 +19,7 @@ export default function PDFViewer({
       ></iframe>
       {pageNumber && (
         <a
-          className="text-sm text-gray-500 dark:text-gray-400"
+          className="text-sm text-gray-500 dark:text-gray-400 no-underline"
           href={`https://drive.google.com/uc?export=download&id=${fileId}`}
         >
           Download PDF ({pageNumber} pages) © factrecall.com
