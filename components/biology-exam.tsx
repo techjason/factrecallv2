@@ -18,12 +18,18 @@ interface ExamProps {
   questions: Question[];
 }
 
+interface MarkingResult {
+  marksAwarded: number;
+  feedback: string;
+}
+
 export function BiologyExam({ questions = [] }: ExamProps) {
   const [answers, setAnswers] = useState<string[]>(
     Array(questions.length).fill("")
   );
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [markingResults, setMarkingResults] = useState<MarkingResult[]>([]);
 
   const handleAnswerChange = (index: number, value: string) => {
     const newAnswers = [...answers];
@@ -31,7 +37,7 @@ export function BiologyExam({ questions = [] }: ExamProps) {
     setAnswers(newAnswers);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (answers.some((answer) => answer.trim() === "")) {
       setError("Please answer all questions before submitting.");
@@ -39,11 +45,18 @@ export function BiologyExam({ questions = [] }: ExamProps) {
     }
     setSubmitted(true);
     setError("");
-    markAnswers(
-      answers,
-      questions.map((q) => q.question),
-      questions.map((q) => q.markScheme)
-    );
+
+    try {
+      const results = await markAnswers(
+        answers,
+        questions.map((q) => q.question),
+        questions.map((q) => q.markScheme)
+      );
+      setMarkingResults(results);
+    } catch (error) {
+      setError("An error occurred while marking your answers.");
+      setSubmitted(false);
+    }
   };
 
   return (
@@ -63,10 +76,27 @@ export function BiologyExam({ questions = [] }: ExamProps) {
               placeholder="Enter your answer here"
             />
             {submitted && (
-              <Alert className="mt-4">
-                <AlertTitle>Mark Scheme Answer:</AlertTitle>
-                <AlertDescription>{q.markScheme}</AlertDescription>
-              </Alert>
+              <>
+                {markingResults[index] && (
+                  <Alert
+                    className="mt-2"
+                    variant={
+                      markingResults[index].marksAwarded === q.marks
+                        ? "default"
+                        : "destructive"
+                    }
+                  >
+                    <AlertTitle>
+                      Your Result: {markingResults[index].marksAwarded}/
+                      {q.marks}
+                    </AlertTitle>
+                    <AlertDescription>
+                      <p>Feedback: {markingResults[index].feedback}</p>
+                      <p>Mark Scheme: {q.markScheme}</p>
+                    </AlertDescription>
+                  </Alert>
+                )}
+              </>
             )}
           </CardContent>
         ))}

@@ -13,12 +13,10 @@ export const markAnswers = async (
   const { object } = await generateObject({
     model: azure("gpt-4o-mini"),
     output: "array",
-    schema: z.array(
-      z.object({
-        marksAwarded: z.number(),
-        feedback: z.string(),
-      })
-    ),
+    schema: z.object({
+      marksAwarded: z.number(),
+      feedback: z.string(),
+    }),
     prompt: `Mark the following answers. 
     Questions: ${questions.join("\n")}
     Mark Scheme: ${markScheme.join("\n")}
@@ -26,7 +24,5 @@ export const markAnswers = async (
     `,
   });
 
-  for await (const mark of object) {
-    console.log(mark);
-  }
+  return object;
 };
