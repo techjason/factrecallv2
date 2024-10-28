@@ -11,7 +11,7 @@ import { Skeleton } from "./ui/skeleton";
 
 interface Question {
   question: string;
-  markScheme: string;
+  markScheme: string[];
   marks: number;
 }
 
@@ -52,7 +52,7 @@ export function BiologyExam({ questions = [] }: ExamProps) {
       const results = await markAnswers(
         answers,
         questions.map((q) => q.question),
-        questions.map((q) => q.markScheme),
+        questions.map((q) => q.markScheme.join("\n")),
         questions.map((q) => q.marks)
       );
       setMarkingResults(results);
@@ -94,13 +94,16 @@ export function BiologyExam({ questions = [] }: ExamProps) {
                           : "yellow"
                       }
                     >
-                      <AlertTitle>
+                      <AlertTitle className="font-bold">
                         Your Result: {markingResults[index].marksAwarded}/
                         {q.marks}
                       </AlertTitle>
                       <AlertDescription>
-                        <p>Feedback: {markingResults[index].feedback}</p>
-                        <p>Mark Scheme: {q.markScheme}</p>
+                        <p>{markingResults[index].feedback}</p>
+                        <p className="font-bold">Mark Scheme:</p>
+                        {q.markScheme.map((mark, i) => (
+                          <p key={i}>{mark}</p>
+                        ))}
                       </AlertDescription>
                     </Alert>
                   )}
