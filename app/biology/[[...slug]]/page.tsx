@@ -10,6 +10,8 @@ import defaultMdxComponents from "fumadocs-ui/mdx";
 import { Accordions, Accordion } from "fumadocs-ui/components/accordion";
 import { MCQQuiz } from "@/components/MCQQuiz";
 import PDFViewer from "@/components/PDFViewer";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { BiologyExam } from "@/components/biology-exam";
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
@@ -30,8 +32,11 @@ export default async function Page(props: {
             ...defaultMdxComponents,
             Accordions,
             Accordion,
+            Step,
+            Steps,
             MCQQuiz,
             PDFViewer,
+            BiologyExam,
           }}
         />
       </DocsBody>

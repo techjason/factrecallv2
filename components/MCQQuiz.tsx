@@ -36,11 +36,11 @@ export function MCQQuiz({ questions }: MCQQuizProps) {
   };
 
   return (
-    <div className="space-y-6 my-8">
+    <div className="space-y-6 my-6">
       {questions.map((question, qIndex) => (
         <div
           key={qIndex}
-          className="p-4 border rounded-lg dark:border-gray-700"
+          className="pt-0 p-4 border rounded-lg dark:border-gray-700"
         >
           <p className="font-medium mb-3 dark:text-gray-100">
             {question.question}
