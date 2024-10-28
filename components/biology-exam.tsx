@@ -7,6 +7,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Textarea } from "./ui/textarea";
 import { markAnswers } from "@/lib/markAnswers";
+import { Skeleton } from "./ui/skeleton";
 
 interface Question {
   question: string;
@@ -30,6 +31,7 @@ export function BiologyExam({ questions = [] }: ExamProps) {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const [markingResults, setMarkingResults] = useState<MarkingResult[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const handleAnswerChange = (index: number, value: string) => {
     const newAnswers = [...answers];
@@ -45,17 +47,20 @@ export function BiologyExam({ questions = [] }: ExamProps) {
     }
     setSubmitted(true);
     setError("");
-
+    setLoading(true);
     try {
       const results = await markAnswers(
         answers,
         questions.map((q) => q.question),
-        questions.map((q) => q.markScheme)
+        questions.map((q) => q.markScheme),
+        questions.map((q) => q.marks)
       );
       setMarkingResults(results);
     } catch (error) {
       setError("An error occurred while marking your answers.");
       setSubmitted(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -75,29 +80,34 @@ export function BiologyExam({ questions = [] }: ExamProps) {
               className=""
               placeholder="Enter your answer here"
             />
-            {submitted && (
-              <>
-                {markingResults[index] && (
-                  <Alert
-                    className="mt-2"
-                    variant={
-                      markingResults[index].marksAwarded === q.marks
-                        ? "default"
-                        : "destructive"
-                    }
-                  >
-                    <AlertTitle>
-                      Your Result: {markingResults[index].marksAwarded}/
-                      {q.marks}
-                    </AlertTitle>
-                    <AlertDescription>
-                      <p>Feedback: {markingResults[index].feedback}</p>
-                      <p>Mark Scheme: {q.markScheme}</p>
-                    </AlertDescription>
-                  </Alert>
-                )}
-              </>
-            )}
+            {submitted &&
+              (!loading ? (
+                <>
+                  {markingResults[index] && (
+                    <Alert
+                      className="mt-2"
+                      variant={
+                        markingResults[index].marksAwarded === q.marks
+                          ? "green"
+                          : markingResults[index].marksAwarded === 0
+                          ? "destructive"
+                          : "yellow"
+                      }
+                    >
+                      <AlertTitle>
+                        Your Result: {markingResults[index].marksAwarded}/
+                        {q.marks}
+                      </AlertTitle>
+                      <AlertDescription>
+                        <p>Feedback: {markingResults[index].feedback}</p>
+                        <p>Mark Scheme: {q.markScheme}</p>
+                      </AlertDescription>
+                    </Alert>
+                  )}
+                </>
+              ) : (
+                <Skeleton className="w-full h-10" />
+              ))}
           </CardContent>
         ))}
         {error && (
@@ -107,6 +117,46 @@ export function BiologyExam({ questions = [] }: ExamProps) {
             </Alert>
           </div>
         )}
+        {submitted &&
+          (!loading ? (
+            <div className="mx-6 mb-4">
+              <Alert variant="default">
+                <AlertTitle>
+                  {(() => {
+                    const totalMarks = questions.reduce(
+                      (total, q) => total + q.marks,
+                      0
+                    );
+                    const scored = markingResults.reduce(
+                      (total, result) => total + result.marksAwarded,
+                      0
+                    );
+                    const percentage = (scored / totalMarks) * 100;
+
+                    if (percentage === 100) return "Perfect Score! 🎉";
+                    if (percentage >= 80) return "Excellent Work! 🌟";
+                    if (percentage >= 70) return "Great Effort! 👏";
+                    if (percentage >= 60) return "Good Progress! 💪";
+                    if (percentage >= 50) return "Keep Going! 📚";
+                    return "Room for Improvement 💡";
+                  })()}
+                </AlertTitle>
+                <AlertDescription>
+                  {`${markingResults.reduce(
+                    (total, result) => total + result.marksAwarded,
+                    0
+                  )}/${questions.reduce(
+                    (total, q) => total + q.marks,
+                    0
+                  )} marks`}
+                </AlertDescription>
+              </Alert>
+            </div>
+          ) : (
+            <div className="mx-6 mb-4">
+              <Skeleton className="w-full h-10" />
+            </div>
+          ))}
         <CardFooter className="flex justify-center">
           <Button type="submit" disabled={submitted} className="w-full">
             {submitted ? "Submitted" : "Submit Answers"}
